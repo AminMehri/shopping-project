@@ -52,6 +52,7 @@ export default {
                 })
                 .then(response => {
                     books.value = response.data.data
+					document.documentElement.scrollTop = 0;
                 })
                 .catch(error => {
                     console.log(error.response)

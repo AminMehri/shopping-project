@@ -124,6 +124,7 @@ export default {
                     author.value = response.data.author_data[0]
                     quotes.value = response.data.quotes_data[0]
 					console.log(author.value.description)
+					document.documentElement.scrollTop = 0;
                 })
                 .catch(error => {
                     console.log(error.response)

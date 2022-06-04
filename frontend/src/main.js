@@ -10,7 +10,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import VueSweetalert2 from 'vue-sweetalert2';
 
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000';
+axios.defaults.baseURL = 'http://127.0.0.1:7000';
 
 
 createApp(App).use(store).use(router).use(VueSweetalert2).mount('#app')
