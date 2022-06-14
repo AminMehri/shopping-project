@@ -8,7 +8,7 @@
                 
                     <div v-for="category in categories" class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
                         <router-link :to="`/category/${category.slug}`">
-                            <img class="rounded-circle mb-2" src="https://picsum.photos/200">
+                            <img class="rounded-circle mb-2 w-100" :src="`http://127.0.0.1:8000${category.cover}`" width="400px">
                             <strong class="text-danger d-block">{{category.title}}</strong>
                         </router-link>
                         

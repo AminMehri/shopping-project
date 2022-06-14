@@ -135,6 +135,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = ''
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -189,6 +192,7 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'access'
 JWT_AUTH_REFRESH_COOKIE = 'refresh'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

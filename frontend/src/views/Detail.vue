@@ -7,7 +7,7 @@
                 <p class="ms-5">{{book.content}}</p>
             </div>
             <div class="col-md-6">
-                <img src="https://picsum.photos/600/400" class="img-fluid">
+                <img :src="`http://127.0.0.1:8000${book.image}`" class="w-100 img-fluid" width="600px">
             </div>
             <div class="col-lg-3 mt-5">
                 <div class="card sticky-lg-top shop-card">

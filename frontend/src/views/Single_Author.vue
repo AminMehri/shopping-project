@@ -8,13 +8,13 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="https://picsum.photos/800/400" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000${author.image1}`" width="800" height="500" class="d-block w-100">
 				</div>
 				<div class="carousel-item">
-					<img src="https://picsum.photos/800/400" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000${author.image2}`" width="800" height="500" class="d-block w-100">
 				</div>
 				<div class="carousel-item">
-					<img src="https://picsum.photos/800/400" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000${author.image3}`" width="800" height="500" class="d-block w-100">
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -69,14 +69,11 @@
 
 
 		<div class="row">
-			<div v-for="book in books" class="card-sl border-end border-start col-lg-4 col-md-6 col-sm-12">
+			<div v-for="book in books" class="card-sl position-relative border-end border-start col-lg-4 col-md-6 col-sm-12">
 				<div class="card-image">
-					<img src="https://picsum.photos/400/200" width="400" height="200" />
+					<img class="w-100" :src="`http://127.0.0.1:8000${book.cover}`" width="400"/>
 				</div>
 
-				<button class="card-action btn" id="shopcardbutton">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16"><path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/><path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
-				</button>
 				<div class="card-heading fs-5">
 					{{book.title}}
 					<span class="d-block text-muted fs-6">
@@ -87,10 +84,10 @@
 				<div class="card-text">
 					{{book.description}}
 				</div>
-				<div class="card-text">
+				<div class="card-text mb-5">
 					${{book.price}}
 				</div>
-				<router-link :to="`/product/${book.slug}`" class="card-button py-3">See more</router-link>
+				<router-link :to="`/product/${book.slug}`" class="card-button py-3 position-absolute" style="left: 0px; bottom: 0px;">See more</router-link>
 			</div>
 
 		</div> 
@@ -164,20 +161,6 @@ a {
 	max-height: 100%;
 	max-width: 100%;
 	border-radius: 8px 8px 0px 0;
-}
-
-.card-action {
-	position: relative;
-	float: right;
-	margin-top: -25px;
-	margin-right: 20px;
-	z-index: 2;
-	color: #c9351e;
-	background: #fff;
-	border-radius: 100%;
-	padding: 15px;
-	font-size: 15px;
-	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card-heading {

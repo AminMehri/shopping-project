@@ -46,7 +46,7 @@
 					</li>
 				</ul>
 				<form class="d-flex">
-					<input v-model="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+					<input v-model="searchInput" class="form-control me-2" placeholder="Search">
 					<button @click="search()" class="btn btn-outline-success" type="button">Search</button>
 				</form>
 			</div>
@@ -55,8 +55,7 @@
 	</nav>
 
 
-	<router-view/>
-	<Home :data=showSearchResult />
+	<router-view :data="showSearchResult" />
 
 	<div class="mt-5">
 				
@@ -181,6 +180,7 @@ export default {
 		let Number_of_books_in_the_shopcart = ref("")
 		const store = useStore()
         const route = useRoute()
+		const router = useRouter()
 
 		let searchInput = ref('')
 		let showSearchResult = ref('')
@@ -200,7 +200,7 @@ export default {
         })
 
 
-		function search(){
+		function search(){			
 			axios
                 .get(`ShowBooks/?search=${searchInput.value}`)
                 .then(response => {

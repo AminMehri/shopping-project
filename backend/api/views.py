@@ -140,7 +140,9 @@ class ShowSingleCategory(APIView):
                 'price': book.price,
             })
         
-        return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
+        category_title = category.title
+        
+        return Response({'status': 'ok', 'data': data, 'category_title':category_title}, status=status.HTTP_200_OK)
         
 
 

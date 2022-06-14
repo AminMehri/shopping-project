@@ -7,7 +7,7 @@
                 <div v-if="books.length" v-for="book in books" class="card mx-auto mb-3" style="max-width: 840px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="https://picsum.photos/500/500" class="img-fluid rounded-start" alt="...">
+                            <img :src="`http://127.0.0.1:8000${book.cover}`" class="w-100 img-fluid rounded-start" width="500px">
                         </div>
                         <router-link :to="`/product/${book.slug}`" class="col-md-8 text-muted">
                             <div class="card-body">
