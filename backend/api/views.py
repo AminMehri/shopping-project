@@ -5,8 +5,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404 
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.pagination import PageNumberPagination
+
 
 
 class LargeResultsSetPagination(PageNumberPagination):
@@ -22,61 +23,15 @@ class ShowBooks(ListAPIView):
 
 
 
-# class ShowBooks(APIView):
-
-#     def get(self, request):
-
-#         books = Book.objects.all()
-
-#         data = []
-#         for book in books:
-#             data.append({
-#                 'title': book.title,
-#                 'category': [b.title for b in book.category.all()],
-#                 'author': [b.full_name for b in book.author.all()],
-#                 'slug': book.slug,
-#                 'description': book.description,
-#                 'cover': book.cover.url,
-#                 'price': book.price,
-#             })
-
-#         return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
+class ShowCategories(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategorySerializer
 
 
 
-class ShowCategories(APIView):
-
-    def post(self, request):
-
-        categories = Category.objects.all()
-
-        data = []
-        for category in categories:
-            data.append({
-                'title': category.title,
-                'slug': category.slug,
-                'cover': category.cover.url,
-            })
-
-        return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
-
-
-
-class ShowAuthors(APIView):
-
-    def post(self, request):
-
-        authors = Author.objects.all()
-
-        data = []
-        for author in authors:
-            data.append({
-                'full_name': author.full_name,
-                'slug': author.slug,
-                'cover': author.cover.url,
-            })
-
-        return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
+class ShowAuthors(ListAPIView):
+    queryset = Author.objects.all()
+    serializer_class = serializers.AuthorSerializer
 
 
 
@@ -85,13 +40,12 @@ class ShowDetailBook(APIView):
     def post(self, request):
         
         serializer = serializers.DetailBookSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid():
             slug = serializer.data.get('slug')
             
         else:
             return Response({'status': 'Bad Request'}, status=status.HTTP_400_BAD_REQUEST)
-            
+
         book = Book.objects.filter(slug=slug)
         
         data = []
@@ -110,6 +64,15 @@ class ShowDetailBook(APIView):
             })
 
         return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
+
+
+
+# class ShowDetailBook(ListAPIView):
+#     serializer_class = serializers.BookSerializer
+#     def get_queryset(self):
+#         slug = self.request.data.get('slug')
+#         book = Book.objects.filter(slug=slug)
+#         return book
 
 
 
@@ -144,6 +107,15 @@ class ShowSingleCategory(APIView):
         
         return Response({'status': 'ok', 'data': data, 'category_title':category_title}, status=status.HTTP_200_OK)
         
+
+
+# class ShowSingleCategory(ListAPIView):
+#     serializer_class = serializers.SingleCategorySerialzer
+#     def get_queryset(self):
+#         slug = self.request.data.get('slug')
+#         category = get_object_or_404(Category, slug=slug)
+#         books = category.books.all()
+#         return books
 
 
 class ShowSingleAuthor(APIView):
@@ -196,56 +168,13 @@ class ShowSingleAuthor(APIView):
 
 
 
-class ShowProfile(APIView):
+class ShowProfile(ListAPIView):
     permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-
+    serializer_class = serializers.ProfileSerialzer
+    def get_queryset(self):
         username = self.request.user.username
-        
         users = User.objects.filter(username=username)
-
-        data = []
-        for user in users:
-            data.append({
-                'username': user.username,
-                'full_name': user.first_name + ' ' + user.last_name,
-                'email': user.email,
-                'address': user.address,
-                'phone_number': user.phone_number,
-            })
-
-        return Response({'status': 'ok', 'data': data}, status=status.HTTP_200_OK)
-
-
-
-# class GetProfileInformation(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-
-#         serializer = serializers.ProfileInformationSerializer(data=request.data)
-#         if serializer.is_valid():
-#             first_name  = serializer.data.get('first_name ')
-#             last_name  = serializer.data.get('last_name ')
-#             address  = serializer.data.get('address ')
-#             email  = serializer.data.get('email ')
-        
-#         else:
-#             return Response({'status': 'Bad Request'}, status=status.HTTP_400_BAD_REQUEST)
-
-#         username = self.request.user.username
-
-#         users = User.objects.filter(username=username)
-
-#         for user in users:
-#             user.first_name = first_name
-#             user.last_name = last_name
-#             user.address = address
-#             user.email = email
-#             print()
-
-#         return Response({'status': 'ok'}, status=status.HTTP_200_OK)
+        return users
 
 
 
@@ -300,48 +229,24 @@ class ShowShopcard(APIView):
 
 
 
-class RemoveFromShopcard(APIView):
-    permission_classes = [IsAuthenticated]
+class RemoveFromShopcard(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.ShopCardSerializer
 
-    def post(self, request):
-
-        serializer = serializers.DetailBookSerializer(data=request.data)
-        if serializer.is_valid():
-            slug = serializer.data.get('slug')
-        
-        else:
-            return Response({'status': 'Bad Request'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        username = self.request.user.username
-
-        user = get_object_or_404(User, username=username)
-
-        book = get_object_or_404(Book, slug=slug)
-
+    def update(self, request, *args, **kwargs):
+        user = get_object_or_404(User, username=request.user.username)
+        book = get_object_or_404(Book, slug=request.data.get('slug'))
         user.shopcard.remove(book)
-
         return Response({'status': 'ok'}, status=status.HTTP_200_OK)
 
 
 
-class AddToShopcard(APIView):
-    permission_classes = [IsAuthenticated]
+class AddToShopcard(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.ShopCardSerializer
 
-    def post(self, request):
-
-        serializer = serializers.DetailBookSerializer(data=request.data)
-        if serializer.is_valid():
-            slug = serializer.data.get('slug')
-        
-        else:
-            return Response({'status': 'Bad Request'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        username = self.request.user.username
-
-        user = get_object_or_404(User, username=username)
-
-        book = get_object_or_404(Book, slug=slug)
-
-        user.shopcard.add(book.id)
-
+    def update(self, request, *args, **kwargs):
+        user = get_object_or_404(User, username=request.user.username)
+        book = get_object_or_404(Book, slug=request.data.get('slug'))
+        user.shopcard.add(book)
         return Response({'status': 'ok'}, status=status.HTTP_200_OK)

@@ -52,7 +52,7 @@ export default {
 
         function addToCardShop(){
             axios
-                .post('AddToShopcard/', {
+                .put('AddToShopcard/', {
                     slug: slug.value
                 })
                 .then(response => {

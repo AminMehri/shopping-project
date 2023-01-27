@@ -8,7 +8,7 @@
                 
                     <div v-for="author in authors" class="col-lg-3 col-md-4 col-sm-6 text-center mb-3">
                         <router-link :to="`/author/${author.slug}`">
-                            <img class="rounded-circle mb-2 w-100" :src="`http://127.0.0.1:8000${author.cover}`" width="400px">
+                            <img class="rounded-circle mb-2 w-100" :src="`${author.cover}`" width="400px">
                             <strong class="text-danger d-block">{{author.full_name}}</strong>
                         </router-link>
                         
@@ -33,9 +33,9 @@ export default {
 
         onMounted(() => {
             axios
-                .post('ShowAuthors/')
+                .get('ShowAuthors/')
                 .then(response => {
-                    authors.value = response.data.data
+                    authors.value = response.data
                 })
                 .catch(error => {
                     console.log(error.response)

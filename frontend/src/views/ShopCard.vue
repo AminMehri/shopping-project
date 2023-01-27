@@ -70,15 +70,15 @@ export default {
 
         function removeFromShopCard(slug){
             axios
-                .post('RemoveFromShopcard/', {
-                    slug: slug
-                })
-                .then(response => {
-                    getShopCard()
-                })
-                .catch(error => {
-                    console.log(error.response)
-                })
+            .put('RemoveFromShopcard/', {
+                slug: slug
+            })
+            .then(response => {
+                getShopCard()
+            })
+            .catch(error => {
+                console.log(error.response)
+            })
 
         }
 

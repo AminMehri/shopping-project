@@ -168,12 +168,11 @@ export default {
             axios
                 .get('ShowProfile/')
                 .then(response => {
-                    console.log(response.data.data[0])
-                    username.value = response.data.data[0].username
-                    fullName.value = response.data.data[0].full_name
-                    address.value = response.data.data[0].address
-                    phoneNumber.value = response.data.data[0].phone_number
-                    email.value = response.data.data[0].email
+                    username.value = response.data[0].username
+                    fullName.value = response.data[0].first_name + ' ' + response.data[0].last_name
+                    address.value = response.data[0].address
+                    phoneNumber.value = response.data[0].phone_number
+                    email.value = response.data[0].email
                 })
                 .catch(error => {
                     console.log(error.response)

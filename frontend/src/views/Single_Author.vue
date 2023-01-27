@@ -8,13 +8,13 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img :src="`http://127.0.0.1:8000${author.image1}`" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000/media${author.image1}`" width="800" height="500" class="d-block w-100">
 				</div>
 				<div class="carousel-item">
-					<img :src="`http://127.0.0.1:8000${author.image2}`" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000/media${author.image2}`" width="800" height="500" class="d-block w-100">
 				</div>
 				<div class="carousel-item">
-					<img :src="`http://127.0.0.1:8000${author.image3}`" width="800" height="500" class="d-block w-100">
+					<img :src="`http://127.0.0.1:8000/media${author.image3}`" width="800" height="500" class="d-block w-100">
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
